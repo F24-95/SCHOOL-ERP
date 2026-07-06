@@ -2,7 +2,7 @@ app/_pycache_/*
 .venv/
 __pycache__/
 routers/_pycache_/*
-.env/* 
+ 
 venv/
 __pycache__/
 *.pyc
@@ -15,4 +15,3 @@ logs/
 uploads/
 .coverage
 htmlcov/
-scripts/seed_accounts.py/*

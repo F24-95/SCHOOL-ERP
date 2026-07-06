@@ -19,7 +19,7 @@ USAGE
 Run it again any time -- it skips accounts that already exist (matched by
 email), so it's safe to re-run.
 
-All seeded accounts use the password:  Password@123
+All seeded accounts use the password:  password123
 (change it after first login)
 """
 
