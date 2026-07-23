@@ -16,7 +16,7 @@ class TestAdminCreateUser:
         data = resp.json()
         assert data["email"] == "newstudent@test.edu"
         assert data["role"] == "student"
-        assert "business_id" in data
+        assert "user_code" in data
 
     def test_create_teacher_user(
         self, client, db_session, academic_session, auth_headers_admin, override_admin
@@ -107,20 +107,20 @@ class TestAdminGetUser:
         self, client, db_session, admin_user, auth_headers_admin, override_admin
     ):
         resp = client.get(
-            f"/admin/user/{admin_user.business_id}?business_id={admin_user.business_id}",
+            f"/admin/user/{admin_user.user_code}?user_code={admin_user.user_code}",
             headers=auth_headers_admin,
         )
         assert resp.status_code in (200, 422), resp.text
 
-    def test_get_user_by_business_id(
+    def test_get_user_by_user_code(
         self, client, db_session, admin_user, auth_headers_admin, override_admin
     ):
         resp = client.get(
-            f"/admin/user/{admin_user.business_id}",
+            f"/admin/user/{admin_user.user_code}",
             headers=auth_headers_admin,
         )
         if resp.status_code == 200:
-            assert resp.json()["business_id"] == admin_user.business_id
+            assert resp.json()["user_code"] == admin_user.user_code
         else:
             assert resp.status_code == 422, resp.text
 
@@ -235,7 +235,7 @@ class TestAdminTeacherSubjects:
             "/admin/teacher-subjects",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "class_subject_id": class_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
                 "classroom_id": classroom.class_code,
                 "subject_id": subject.subject_code,
                 "teacher_id": teacher_user.teacher_id,
@@ -244,7 +244,7 @@ class TestAdminTeacherSubjects:
         )
         assert resp.status_code == 200, resp.text
         data = resp.json()
-        assert "business_id" in data
+        assert "teacher_subject_code" in data
 
     def test_list_teacher_subjects(
         self, client, db_session, auth_headers_admin, override_admin
@@ -280,7 +280,7 @@ class TestAdminStudentClasses:
         )
         assert resp.status_code == 200, resp.text
         data = resp.json()
-        assert "business_id" in data
+        assert "student_class_code" in data
 
     def test_list_student_classes(
         self, client, db_session, auth_headers_admin, override_admin

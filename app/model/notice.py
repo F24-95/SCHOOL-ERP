@@ -31,7 +31,7 @@ from app.helpers.code_generators import generate_notice_code
 class Notice(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "notices"
 
-    business_id = Column(String(30), primary_key=True, default=generate_notice_code)
+    notice_code = Column(String(30), primary_key=True, default=generate_notice_code)
 
     # =====================================================
     # Academic
@@ -103,11 +103,11 @@ class Notice(Base, TimestampMixin, ActiveMixin):
     # Audit
     # =====================================================
 
-    created_by = Column(String(30), ForeignKey("users.business_id"), nullable=False)
+    created_by = Column(String(30), ForeignKey("users.user_code"), nullable=False)
 
-    updated_by = Column(String(30), ForeignKey("users.business_id"))
+    updated_by = Column(String(30), ForeignKey("users.user_code"))
 
-    deleted_by = Column(String(30), ForeignKey("users.business_id"))
+    deleted_by = Column(String(30), ForeignKey("users.user_code"))
 
     # =====================================================
     # Relationships

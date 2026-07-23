@@ -14,7 +14,7 @@ from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.enums import MaterialType
 from app.core.mixins import ActiveMixin, TimestampMixin
-from app.helpers.code_generators import generate_material_id
+from app.helpers.code_generators import generate_material_code
 
 # ============================================================
 # AUTO TABLENAME
@@ -29,7 +29,7 @@ from app.helpers.code_generators import generate_material_id
 class StudyMaterial(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "study_materials"
 
-    business_id = Column(String(30), primary_key=True, default=generate_material_id)
+    material_code = Column(String(30), primary_key=True, default=generate_material_code)
 
     # ===========================================
     # Academic
@@ -50,13 +50,13 @@ class StudyMaterial(Base, TimestampMixin, ActiveMixin):
     )
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id"),
+        ForeignKey("class_subjects.class_subject_code"),
         nullable=False,
         index=True,
     )
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
         index=True,
     )
@@ -89,7 +89,7 @@ class StudyMaterial(Base, TimestampMixin, ActiveMixin):
     # Audit
     # ===========================================
 
-    uploaded_by = Column(String(30), ForeignKey("users.business_id"), nullable=False)
+    uploaded_by = Column(String(30), ForeignKey("users.user_code"), nullable=False)
 
     academic_sessions = relationship("AcademicSession")
 

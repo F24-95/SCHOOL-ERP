@@ -53,7 +53,7 @@ class StudyMaterialCreate(StudyMaterialBase):
 
 
 class StudyMaterialResponse(StudyMaterialBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    material_code: str
     academic_sessions_id: str
     classroom_id: str
     class_subject_id: str

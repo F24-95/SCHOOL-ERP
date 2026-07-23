@@ -14,7 +14,7 @@ from sqlalchemy.orm import relationship
 from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.mixins import ActiveMixin, TimestampMixin
-from app.helpers.code_generators import generate_chat_message_id, generate_chat_room_id
+from app.helpers.code_generators import generate_chat_message_code, generate_chat_room_code
 
 # ============================================================
 # AUTO TABLENAME
@@ -29,7 +29,7 @@ from app.helpers.code_generators import generate_chat_message_id, generate_chat_
 class ChatRoom(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "chat_rooms"
 
-    business_id = Column(String(30), primary_key=True, default=generate_chat_room_id)
+    chat_room_code = Column(String(30), primary_key=True, default=generate_chat_room_code)
 
     academic_sessions_id = Column(
         String(MAX_CODE_LENGTH),
@@ -40,14 +40,14 @@ class ChatRoom(Base, TimestampMixin, ActiveMixin):
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
         index=True,
     )
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
         index=True,
     )
@@ -86,18 +86,18 @@ class ChatRoom(Base, TimestampMixin, ActiveMixin):
 class ChatMessage(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "chat_messages"
 
-    business_id = Column(String(30), primary_key=True, default=generate_chat_message_id)
+    chat_message_code = Column(String(30), primary_key=True, default=generate_chat_message_code)
 
     chat_room_id = Column(
         String(30),
-        ForeignKey("chat_rooms.business_id"),
+        ForeignKey("chat_rooms.chat_room_code"),
         nullable=False,
         index=True,
     )
 
     sender_id = Column(
         String(30),
-        ForeignKey("users.business_id"),
+        ForeignKey("users.user_code"),
         nullable=False,
         index=True,
     )

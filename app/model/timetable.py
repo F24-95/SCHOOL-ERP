@@ -153,7 +153,7 @@ class TimeSlot(TimestampMixin, ActiveMixin, Base):
 class ClassTimeTable(TimestampMixin, ActiveMixin, AuditMixin, Base):
     __tablename__ = "class_timetable"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    timetable_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     academic_sessions_id = Column(
         String(MAX_CODE_LENGTH),
@@ -169,13 +169,13 @@ class ClassTimeTable(TimestampMixin, ActiveMixin, AuditMixin, Base):
 
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id"),
+        ForeignKey("class_subjects.class_subject_code"),
         nullable=False,
     )
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
     )
 
@@ -239,7 +239,7 @@ class ClassTimeTable(TimestampMixin, ActiveMixin, AuditMixin, Base):
     )
 
     def __repr__(self) -> str:
-        return f"<ClassTimeTable({self.business_id})>"
+        return f"<ClassTimeTable({self.timetable_code})>"
 
 
 # ============================================================
@@ -250,7 +250,7 @@ class ClassTimeTable(TimestampMixin, ActiveMixin, AuditMixin, Base):
 class TeacherAvailability(TimestampMixin, ActiveMixin, AuditMixin, Base):
     __tablename__ = "teacher_availability"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    availability_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     academic_sessions_id = Column(
         String(MAX_CODE_LENGTH),
@@ -260,7 +260,7 @@ class TeacherAvailability(TimestampMixin, ActiveMixin, AuditMixin, Base):
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
     )
 
@@ -315,4 +315,4 @@ class TeacherAvailability(TimestampMixin, ActiveMixin, AuditMixin, Base):
     )
 
     def __repr__(self) -> str:
-        return f"<TeacherAvailability({self.business_id})>"
+        return f"<TeacherAvailability({self.availability_code})>"

@@ -59,7 +59,7 @@ class DailyClassCreate(DailyClassBase):
 
 
 class DailyClassResponse(DailyClassBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    daily_class_code: str
     academic_sessions_id: str
     classroom_id: str
     class_subject_id: str
@@ -99,7 +99,7 @@ class DailyClassStudentCreate(DailyClassStudentBase):
 
 
 class DailyClassStudentResponse(DailyClassStudentBase, TimestampSchema):
-    business_id: str
+    daily_class_student_code: str
     daily_class_id: int
     student_class_id: str
     marked_by: str | None = None
@@ -127,7 +127,7 @@ class StudentAttendanceBase(BaseSchema):
 
 
 class StudentAttendanceResponse(StudentAttendanceBase, TimestampSchema):
-    business_id: str | None = None
+    attendance_code: str | None = None
     student_class_id: str
 
 

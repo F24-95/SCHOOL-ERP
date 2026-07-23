@@ -15,8 +15,8 @@ class TestExamCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "exam_name": "Mid Term",
                 "exam_type": "Written",
                 "exam_date": "2026-09-15",
@@ -57,8 +57,8 @@ class TestExamCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "exam_name": "Final Exam",
                 "exam_type": "Written",
                 "exam_date": "2026-12-15",
@@ -94,8 +94,8 @@ class TestExamCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "exam_name": "Prelim",
                 "exam_type": "Written",
                 "exam_date": "2026-10-01",
@@ -131,8 +131,8 @@ class TestExamCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "exam_name": "Delete Test Exam",
                 "exam_type": "Written",
                 "exam_date": "2026-11-01",

@@ -76,7 +76,7 @@ class UserResponse(TimestampSchema, ActiveSchema, AuditSchema):
     email: str
     phone: str
     role: UserRole
-    business_id: str
+    user_code: str
     admin_id: str | None = None
     teacher_id: str | None = None
     student_id: str | None = None

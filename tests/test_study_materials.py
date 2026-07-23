@@ -22,8 +22,8 @@ class TestStudyMaterialCRUD:
             "/study-materials/",
             data={
                 **MATERIAL_DATA,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
             },
             files={"file": ("test.pdf", b"%PDF-1.4 test content", "application/pdf")},
             headers=auth_headers_admin,
@@ -32,7 +32,7 @@ class TestStudyMaterialCRUD:
         data = resp.json()
         assert data["title"] == MATERIAL_DATA["title"]
         assert data["description"] == MATERIAL_DATA["description"]
-        assert "business_id" in data
+        assert "material_code" in data
 
     def test_list_materials(
         self,
@@ -61,14 +61,14 @@ class TestStudyMaterialCRUD:
             "/study-materials/",
             data={
                 **MATERIAL_DATA,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
             },
             files={"file": ("test.pdf", b"%PDF-1.4 test content", "application/pdf")},
             headers=auth_headers_admin,
         )
         assert create_resp.status_code == 200, create_resp.text
-        material_id = create_resp.json()["business_id"]
+        material_id = create_resp.json()["material_code"]
 
         resp = client.get(
             f"/study-materials/{material_id}",
@@ -91,14 +91,14 @@ class TestStudyMaterialCRUD:
             "/study-materials/",
             data={
                 **MATERIAL_DATA,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
             },
             files={"file": ("test.pdf", b"%PDF-1.4 test content", "application/pdf")},
             headers=auth_headers_admin,
         )
         assert create_resp.status_code == 200, create_resp.text
-        material_id = create_resp.json()["business_id"]
+        material_id = create_resp.json()["material_code"]
 
         resp = client.delete(
             f"/study-materials/{material_id}",

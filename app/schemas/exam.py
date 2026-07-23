@@ -66,7 +66,7 @@ class ExamCreate(ExamBase):
 
 
 class ExamResponse(ExamBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    exam_code: str
     academic_sessions_id: str
     classroom_id: str
     class_subject_id: str
@@ -110,7 +110,7 @@ class ExamResultCreate(ExamResultBase):
 
 
 class ExamResultResponse(ExamResultBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    exam_result_code: str
     exam_id: str
     student_class_id: str
     checked_by: str | None = None

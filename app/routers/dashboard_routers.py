@@ -677,7 +677,7 @@ async def get_admin_dashboard(
                 for u in recent_user
             ],
             "recent_notices": [
-                {"id": n.business_id, "title": n.title, "created_at": n.created_at}
+                {"id": n.notice_code, "title": n.title, "created_at": n.created_at}
                 for n in recent_notices
             ],
         },

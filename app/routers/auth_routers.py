@@ -45,8 +45,8 @@ from app.schemas import (
 # Setup logging
 logger = logging.getLogger(__name__)
 
-router = APIRouter(tags=["Authentication"])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+router = APIRouter(prefix="/auth", tags=["Authentication"])
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 # ============================================================
 # HELPER FUNCTIONS
@@ -451,7 +451,7 @@ async def send_verification_otp(
         # Generate OTP
         otp = generate_otp(6)
         user.email_otp = otp
-        user.email_otp_expiry = datetime.now(UTC) + timedelta(minutes=10)
+        user.email_otp_expiry = datetime.now(UTC).replace(tzinfo=None) + timedelta(minutes=10)
         db.commit()
 
         # Send OTP email in background
@@ -503,8 +503,8 @@ async def verify_email(
                 detail="Invalid OTP",
             )
 
-        # Check expiry
-        if user.email_otp_expiry and user.email_otp_expiry < datetime.now(UTC):
+        # Check expiry (column is offset-naive DateTime)
+        if user.email_otp_expiry and user.email_otp_expiry < datetime.now(UTC).replace(tzinfo=None):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="OTP has expired",
@@ -565,7 +565,7 @@ async def send_login_otp(
         # Generate OTP
         otp = generate_otp(6)
         user.email_otp = otp
-        user.email_otp_expiry = datetime.now(UTC) + timedelta(minutes=10)
+        user.email_otp_expiry = datetime.now(UTC).replace(tzinfo=None) + timedelta(minutes=10)
         db.commit()
 
         # Send OTP email in background
@@ -609,8 +609,8 @@ async def verify_login_otp(
                 detail="Invalid OTP",
             )
 
-        # Check expiry
-        if user.email_otp_expiry and user.email_otp_expiry < datetime.now(UTC):
+        # Check expiry (column is offset-naive DateTime)
+        if user.email_otp_expiry and user.email_otp_expiry < datetime.now(UTC).replace(tzinfo=None):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="OTP has expired",
@@ -619,7 +619,7 @@ async def verify_login_otp(
         # Clear OTP
         user.email_otp = None
         user.email_otp_expiry = None
-        user.last_login = datetime.now(UTC)
+        user.last_login = datetime.now(UTC).replace(tzinfo=None)
         user.login_count += 1
         db.commit()
 

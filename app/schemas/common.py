@@ -82,7 +82,7 @@ class AuditSchema(BaseSchema):
 
 
 class UserMinResponse(ActiveSchema):
-    business_id: str
+    user_code: str
     email: str
     phone: str
     role: UserRole

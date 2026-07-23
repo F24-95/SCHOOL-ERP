@@ -17,7 +17,7 @@ class StudentIDCardGenerateResponse(BaseSchema):
 class StudentIDCardResponse(BaseSchema):
     model_config = ConfigDict(from_attributes=True)
 
-    business_id: str
+    id_card_code: str
     student_id: str
     academic_sessions_id: str
 

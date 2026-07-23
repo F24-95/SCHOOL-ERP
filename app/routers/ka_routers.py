@@ -35,7 +35,7 @@ async def get_ka_course(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    course = db.query(KaCourse).filter(KaCourse.business_id == id).first()
+    course = db.query(KaCourse).filter(KaCourse.ka_course_code == id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
     return course
@@ -67,7 +67,7 @@ async def update_ka_course(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    course = db.query(KaCourse).filter(KaCourse.business_id == id).first()
+    course = db.query(KaCourse).filter(KaCourse.ka_course_code == id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
     for key, value in data.model_dump(exclude_unset=True).items():
@@ -83,7 +83,7 @@ async def delete_ka_course(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    course = db.query(KaCourse).filter(KaCourse.business_id == id).first()
+    course = db.query(KaCourse).filter(KaCourse.ka_course_code == id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
     db.delete(course)
@@ -108,7 +108,7 @@ async def get_ka_student(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    student = db.query(KaStudent).filter(KaStudent.business_id == id).first()
+    student = db.query(KaStudent).filter(KaStudent.ka_student_code == id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found in KA")
     return student
@@ -134,7 +134,7 @@ async def update_ka_student(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    student = db.query(KaStudent).filter(KaStudent.business_id == id).first()
+    student = db.query(KaStudent).filter(KaStudent.ka_student_code == id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found in KA")
     for key, value in data.model_dump(exclude_unset=True).items():
@@ -150,7 +150,7 @@ async def delete_ka_student(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    student = db.query(KaStudent).filter(KaStudent.business_id == id).first()
+    student = db.query(KaStudent).filter(KaStudent.ka_student_code == id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found in KA")
     db.delete(student)
@@ -182,7 +182,7 @@ async def get_student_report(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    report = db.query(StudentReport).filter(StudentReport.business_id == id).first()
+    report = db.query(StudentReport).filter(StudentReport.report_code == id).first()
     if not report:
         raise HTTPException(status_code=404, detail="Student report not found")
     return report
@@ -208,7 +208,7 @@ async def update_student_report(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    report = db.query(StudentReport).filter(StudentReport.business_id == id).first()
+    report = db.query(StudentReport).filter(StudentReport.report_code == id).first()
     if not report:
         raise HTTPException(status_code=404, detail="Student report not found")
     for key, value in data.model_dump(exclude_unset=True).items():
@@ -224,7 +224,7 @@ async def delete_student_report(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    report = db.query(StudentReport).filter(StudentReport.business_id == id).first()
+    report = db.query(StudentReport).filter(StudentReport.report_code == id).first()
     if not report:
         raise HTTPException(status_code=404, detail="Student report not found")
     db.delete(report)

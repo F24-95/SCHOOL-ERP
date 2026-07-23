@@ -63,7 +63,7 @@ async def get_topic_progress(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    tp = db.query(TopicProgress).filter(TopicProgress.business_id == id).first()
+    tp = db.query(TopicProgress).filter(TopicProgress.topic_progress_code == id).first()
     if not tp:
         raise HTTPException(status_code=404, detail="Topic progress not found")
     return tp
@@ -78,7 +78,7 @@ async def update_topic_progress(
     ],
     db: Annotated[Session, Depends(get_db)],
 ):
-    tp = db.query(TopicProgress).filter(TopicProgress.business_id == id).first()
+    tp = db.query(TopicProgress).filter(TopicProgress.topic_progress_code == id).first()
     if not tp:
         raise HTTPException(status_code=404, detail="Topic progress not found")
     for key, value in data.model_dump(exclude_unset=True).items():
@@ -94,7 +94,7 @@ async def delete_topic_progress(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    tp = db.query(TopicProgress).filter(TopicProgress.business_id == id).first()
+    tp = db.query(TopicProgress).filter(TopicProgress.topic_progress_code == id).first()
     if not tp:
         raise HTTPException(status_code=404, detail="Topic progress not found")
     db.delete(tp)
@@ -148,7 +148,7 @@ async def get_student_topic_progress_report(
 ):
     report = (
         db.query(StudentTopicProgressReport)
-        .filter(StudentTopicProgressReport.business_id == id)
+        .filter(StudentTopicProgressReport.topic_progress_report_code == id)
         .first()
     )
     if not report:
@@ -211,7 +211,7 @@ async def get_topic(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    topic = db.query(Topic).filter(Topic.business_id == id).first()
+    topic = db.query(Topic).filter(Topic.topic_code == id).first()
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
     return topic
@@ -224,7 +224,7 @@ async def update_topic(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    topic = db.query(Topic).filter(Topic.business_id == id).first()
+    topic = db.query(Topic).filter(Topic.topic_code == id).first()
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
     for key, value in data.model_dump(exclude_unset=True).items():
@@ -240,7 +240,7 @@ async def delete_topic(
     current_user: Annotated[User, Depends(require_role(UserRole.ADMIN))],
     db: Annotated[Session, Depends(get_db)],
 ):
-    topic = db.query(Topic).filter(Topic.business_id == id).first()
+    topic = db.query(Topic).filter(Topic.topic_code == id).first()
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
     db.delete(topic)

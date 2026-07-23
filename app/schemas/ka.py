@@ -14,7 +14,7 @@ class KaCourseCreate(BaseSchema):
 
 
 class KaCourseResponse(KaCourseBase):
-    business_id: str
+    ka_course_code: str
 
 
 class KaStudentBase(BaseSchema):
@@ -28,7 +28,7 @@ class KaStudentCreate(BaseSchema):
 
 
 class KaStudentResponse(KaStudentBase):
-    business_id: str
+    ka_student_code: str
 
 
 class StudentReportBase(BaseSchema):
@@ -43,4 +43,4 @@ class StudentReportCreate(BaseSchema):
 
 
 class StudentReportResponse(StudentReportBase):
-    business_id: str
+    report_code: str

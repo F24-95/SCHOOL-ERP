@@ -16,7 +16,7 @@ class TopicCreate(BaseSchema):
 
 
 class TopicResponse(TopicBase):
-    business_id: str
+    topic_code: str
 
 
 class TopicProgressBase(BaseSchema):
@@ -40,7 +40,7 @@ class TopicProgressCreate(BaseSchema):
 
 
 class TopicProgressResponse(TopicProgressBase):
-    business_id: str
+    topic_progress_code: str
     topic_progress_id: str | None = None
 
 
@@ -57,4 +57,4 @@ class StudentTopicProgressReportCreate(BaseSchema):
 
 
 class StudentTopicProgressReportResponse(StudentTopicProgressReportBase):
-    business_id: str
+    topic_progress_report_code: str

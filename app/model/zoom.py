@@ -14,11 +14,11 @@ from sqlalchemy.orm import relationship
 
 from app.api.database import Base
 from app.helpers.code_generators import (
-    generate_zoom_duration_report_id,
-    generate_zoom_file_id,
-    generate_zoom_interaction_id,
-    generate_zoom_interaction_report_id,
-    generate_zoom_transcript_id,
+    generate_duration_report_code,
+    generate_zoom_file_code,
+    generate_zoom_interaction_code,
+    generate_interaction_report_code,
+    generate_zoom_transcript_code,
 )
 
 # ============================================================
@@ -176,7 +176,7 @@ class ZoomRecordingFile(Base):
 class ZoomFile(Base):
     __tablename__ = "zoom_file"
 
-    business_id = Column(String(30), primary_key=True, default=generate_zoom_file_id)
+    zoom_file_code = Column(String(30), primary_key=True, default=generate_zoom_file_code)
 
     file_initial = Column(String(255), unique=True, nullable=False, index=True)
 
@@ -212,10 +212,10 @@ class ZoomFile(Base):
 class ZoomTranscript(Base):
     __tablename__ = "zoom_transcript"
 
-    business_id = Column(
+    zoom_transcript_code = Column(
         String(30),
         primary_key=True,
-        default=generate_zoom_transcript_id,
+        default=generate_zoom_transcript_code,
     )
 
     zoom_file_id = Column(
@@ -271,10 +271,10 @@ class ZoomTranscript(Base):
 class ZoomStudentInteraction(Base):
     __tablename__ = "zoom_student_interaction"
 
-    business_id = Column(
+    zoom_interaction_code = Column(
         String(30),
         primary_key=True,
-        default=generate_zoom_interaction_id,
+        default=generate_zoom_interaction_code,
     )
 
     zoom_file_id = Column(
@@ -319,15 +319,15 @@ class ZoomStudentInteraction(Base):
 class ZoomDurationReport(Base):
     __tablename__ = "zoom_duration_report"
 
-    business_id = Column(
+    duration_report_code = Column(
         String(30),
         primary_key=True,
-        default=generate_zoom_duration_report_id,
+        default=generate_duration_report_code,
     )
 
     report_id = Column(
         String(30),
-        ForeignKey("student_report.business_id"),
+        ForeignKey("student_report.report_code"),
         nullable=False,
         index=True,
     )
@@ -356,15 +356,15 @@ class ZoomDurationReport(Base):
 class ZoomInteractionReport(Base):
     __tablename__ = "zoom_interaction_report"
 
-    business_id = Column(
+    interaction_report_code = Column(
         String(30),
         primary_key=True,
-        default=generate_zoom_interaction_report_id,
+        default=generate_interaction_report_code,
     )
 
     report_id = Column(
         String(30),
-        ForeignKey("student_report.business_id"),
+        ForeignKey("student_report.report_code"),
         nullable=False,
         index=True,
     )

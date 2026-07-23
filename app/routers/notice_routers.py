@@ -95,7 +95,7 @@
 #     db.refresh(notice)
 
 #     notice = db.query(Notice).filter(
-#         Notice.business_id == notice.id
+#         Notice.notice_code == notice.id
 #     ).first()
 
 #     return notice
@@ -124,7 +124,7 @@
 #     notice = db.query(
 #         Notice
 #     ).filter(
-#         Notice.business_id == notice_id
+#         Notice.notice_code == notice_id
 #     ).first()
 
 #     if not notice:
@@ -148,7 +148,7 @@
 #     notice = db.query(
 #         Notice
 #     ).filter(
-#         Notice.business_id == notice_id
+#         Notice.notice_code == notice_id
 #     ).first()
 
 #     if not notice:
@@ -359,7 +359,7 @@ async def get_notice(
     db: Annotated[Session, Depends(get_db)],
 ):
     """Get notice by ID."""
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
 
     if not notice:
         raise HTTPException(
@@ -388,7 +388,7 @@ async def update_notice(
     db: Session = Depends(get_db),
 ):
     """Update notice."""
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -448,7 +448,7 @@ async def delete_notice(
     db: Annotated[Session, Depends(get_db)],
 ):
     """Soft-delete notice + remove attachment file from disk (best-effort)."""
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -479,7 +479,7 @@ async def pin_notice(
     db: Annotated[Session, Depends(get_db)],
 ):
     """Pin a notice."""
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -498,7 +498,7 @@ async def view_notice_file(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice or not notice.attachment_path:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -528,7 +528,7 @@ async def download_notice_file(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice or not notice.attachment_path:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -563,7 +563,7 @@ async def unpin_notice(
     db: Annotated[Session, Depends(get_db)],
 ):
     """Unpin a notice."""
-    notice = db.query(Notice).filter(Notice.business_id == notice_id).first()
+    notice = db.query(Notice).filter(Notice.notice_code == notice_id).first()
     if not notice:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

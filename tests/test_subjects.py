@@ -114,7 +114,7 @@ class TestClassSubjectMapping:
         )
         assert resp.status_code == 200, resp.text
         data = resp.json()
-        assert "business_id" in data
+        assert "class_subject_code" in data
 
     def test_assign_duplicate_class_subject(
         self,

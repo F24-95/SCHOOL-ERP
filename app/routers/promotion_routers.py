@@ -37,7 +37,7 @@ async def get_promotion(
 ):
     prom = (
         db.query(StudentPromotionHistory)
-        .filter(StudentPromotionHistory.business_id == id)
+        .filter(StudentPromotionHistory.promotion_code == id)
         .first()
     )
     if not prom:
@@ -79,7 +79,7 @@ async def update_promotion(
 ):
     prom = (
         db.query(StudentPromotionHistory)
-        .filter(StudentPromotionHistory.business_id == id)
+        .filter(StudentPromotionHistory.promotion_code == id)
         .first()
     )
     if not prom:
@@ -100,7 +100,7 @@ async def delete_promotion(
 ):
     prom = (
         db.query(StudentPromotionHistory)
-        .filter(StudentPromotionHistory.business_id == id)
+        .filter(StudentPromotionHistory.promotion_code == id)
         .first()
     )
     if not prom:

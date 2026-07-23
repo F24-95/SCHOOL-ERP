@@ -54,7 +54,7 @@ def _decode_base64_to_bytes(data: str) -> bytes:
 
 
 def _generate_attachment_code() -> str:
-    return f"ATT-{secrets.token_hex(8).upper()}"[:30]
+    return f"ATC-{secrets.token_hex(8).upper()}"[:30]
 
 
 @router.post("/upload")
@@ -101,7 +101,7 @@ async def upload_attachment(
     attachment_code = _generate_attachment_code()
 
     attachment = Attachment(
-        business_id=attachment_code,
+        attachment_code=attachment_code,
         entity_type=entity_type.lower(),
         entity_id=entity_id,
         file_name=file_name,
@@ -117,8 +117,8 @@ async def upload_attachment(
 
     return {
         "success": True,
-        "attachment_id": attachment.business_id,
-        "attachment_code": attachment.business_id,
+        "attachment_id": attachment.attachment_code,
+        "attachment_code": attachment.attachment_code,
         "file_name": attachment.file_name,
         "file_size": attachment.file_size,
     }
@@ -132,7 +132,7 @@ async def download_attachment(
 ):
     attachment = (
         db.query(Attachment)
-        .filter(Attachment.business_id == attachment_id, Attachment.is_active)
+        .filter(Attachment.attachment_code == attachment_id, Attachment.is_active)
         .first()
     )
     if not attachment:
@@ -168,8 +168,8 @@ async def list_entity_attachments(
         "success": True,
         "data": [
             {
-                "id": a.business_id,
-                "attachment_code": a.business_id,
+                "id": a.attachment_code,
+                "attachment_code": a.attachment_code,
                 "file_name": a.file_name,
                 "mime_type": a.mime_type,
                 "file_size": a.file_size,
@@ -189,7 +189,7 @@ async def update_attachment(
 ):
     """Update attachment metadata (file_name, mime_type)."""
     attachment = (
-        db.query(Attachment).filter(Attachment.business_id == attachment_id).first()
+        db.query(Attachment).filter(Attachment.attachment_code == attachment_id).first()
     )
     if not attachment:
         raise HTTPException(status_code=404, detail="Attachment not found")
@@ -217,7 +217,7 @@ async def update_attachment(
 
     return {
         "success": True,
-        "attachment_id": attachment.business_id,
+        "attachment_id": attachment.attachment_code,
         "file_name": attachment.file_name,
         "mime_type": attachment.mime_type,
     }
@@ -231,7 +231,7 @@ async def delete_attachment(
 ):
     """Soft-delete an attachment (uploader or admin only)."""
     attachment = (
-        db.query(Attachment).filter(Attachment.business_id == attachment_id).first()
+        db.query(Attachment).filter(Attachment.attachment_code == attachment_id).first()
     )
     if not attachment:
         raise HTTPException(status_code=404, detail="Attachment not found")

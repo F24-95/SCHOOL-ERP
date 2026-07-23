@@ -72,7 +72,7 @@ class AssignmentCreate(AssignmentBase):
 
 class AssignmentResponse(AssignmentBase, TimestampSchema, ActiveSchema):
     assignment_id: str | None = Field(None, max_length=30)
-    business_id: str
+    assignment_code: str
     academic_sessions_id: str
     classroom_id: str
     class_subject_id: str
@@ -116,7 +116,7 @@ class AssignmentResultCreate(AssignmentResultBase):
 
 
 class AssignmentResultResponse(AssignmentResultBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    assignment_result_code: str
     assignment_id: str
     student_class_id: str
     checked_by: str | None = None

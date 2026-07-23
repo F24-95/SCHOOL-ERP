@@ -33,7 +33,7 @@ from app.helpers.code_generators import generate_uuid
 class DailyClass(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "daily_classes"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    daily_class_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     academic_sessions_id = Column(
         String(MAX_CODE_LENGTH),
@@ -51,21 +51,21 @@ class DailyClass(Base, TimestampMixin, ActiveMixin):
 
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id"),
+        ForeignKey("class_subjects.class_subject_code"),
         nullable=False,
         index=True,
     )
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
         index=True,
     )
 
     timetable_id = Column(
         String(30),
-        ForeignKey("class_timetable.business_id"),
+        ForeignKey("class_timetable.timetable_code"),
         nullable=True,
     )
 
@@ -123,17 +123,17 @@ class DailyClass(Base, TimestampMixin, ActiveMixin):
 class DailyClassStudent(Base, TimestampMixin):
     __tablename__ = "daily_class_students"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    daily_class_student_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     daily_class_id = Column(
         String(30),
-        ForeignKey("daily_classes.business_id"),
+        ForeignKey("daily_classes.daily_class_code"),
         nullable=False,
     )
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
     )
 
@@ -150,7 +150,7 @@ class DailyClassStudent(Base, TimestampMixin):
 
     remarks = Column(Text)
 
-    marked_by = Column(String(30), ForeignKey("users.business_id"))
+    marked_by = Column(String(30), ForeignKey("users.user_code"))
 
     marked_at = Column(DateTime, default=datetime.utcnow)
 
@@ -174,11 +174,11 @@ class DailyClassStudent(Base, TimestampMixin):
 class StudentAttendance(Base, TimestampMixin):
     __tablename__ = "student_attendance"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    attendance_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
         unique=True,
     )

@@ -17,7 +17,7 @@ class TestNoticeCRUD:
         data = resp.json()
         assert data["title"] == NOTICE_DATA["title"]
         assert data["description"] == NOTICE_DATA["description"]
-        assert "business_id" in data
+        assert "notice_code" in data
 
     def test_list_notices(
         self, client, db_session, seed_all, auth_headers_admin, override_admin
@@ -36,7 +36,7 @@ class TestNoticeCRUD:
             "/notices/", data=NOTICE_DATA, headers=auth_headers_admin
         )
         assert create_resp.status_code == 200, create_resp.text
-        notice_id = create_resp.json()["business_id"]
+        notice_id = create_resp.json()["notice_code"]
 
         resp = client.get(f"/notices/{notice_id}", headers=auth_headers_admin)
         assert resp.status_code == 200, resp.text
@@ -49,7 +49,7 @@ class TestNoticeCRUD:
             "/notices/", data=NOTICE_DATA, headers=auth_headers_admin
         )
         assert create_resp.status_code == 200, create_resp.text
-        notice_id = create_resp.json()["business_id"]
+        notice_id = create_resp.json()["notice_code"]
 
         resp = client.put(
             f"/notices/{notice_id}",
@@ -66,7 +66,7 @@ class TestNoticeCRUD:
             "/notices/", data=NOTICE_DATA, headers=auth_headers_admin
         )
         assert create_resp.status_code == 200, create_resp.text
-        notice_id = create_resp.json()["business_id"]
+        notice_id = create_resp.json()["notice_code"]
 
         resp = client.delete(f"/notices/{notice_id}", headers=auth_headers_admin)
         assert resp.status_code == 200, resp.text

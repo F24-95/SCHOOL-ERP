@@ -251,7 +251,7 @@ async def universal_search(
             or_(
                 Notice.title.ilike(pattern),
                 Notice.description.ilike(pattern),
-                Notice.business_id.ilike(pattern),
+                Notice.notice_code.ilike(pattern),
             ),
         )
         .limit(limit)
@@ -261,13 +261,13 @@ async def universal_search(
         [
             SearchResultItemSchema(
                 entity_type="notice",
-                id=n.business_id,
+                id=n.notice_code,
                 name=n.title,
                 subtitle=n.notice_type.value
                 if hasattr(n.notice_type, "value")
                 else str(n.notice_type),
                 details={
-                    "notice_id": n.business_id,
+                    "notice_id": n.notice_code,
                     "title": n.title,
                     "description": n.description[:200] + "..."
                     if n.description and len(n.description) > 200
@@ -337,11 +337,11 @@ async def universal_search(
         [
             SearchResultItemSchema(
                 entity_type="topic",
-                id=str(t.business_id),
+                id=str(t.topic_code),
                 name=t.topic_name or "Untitled",
                 subtitle=t.topic_id or "",
                 details={
-                    "id": t.business_id,
+                    "id": t.topic_code,
                     "topic_id": t.topic_id,
                     "topic_name": t.topic_name,
                     "course_id": t.course_id,
@@ -430,7 +430,7 @@ async def search_notices(
             or_(
                 Notice.title.ilike(pattern),
                 Notice.description.ilike(pattern),
-                Notice.business_id.ilike(pattern),
+                Notice.notice_code.ilike(pattern),
             ),
         )
         .limit(limit)

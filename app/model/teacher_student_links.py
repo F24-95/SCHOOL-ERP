@@ -15,9 +15,9 @@ from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.mixins import ActiveMixin, TimestampMixin
 from app.helpers.code_generators import (
-    generate_promotion_history_id,
-    generate_student_class_id,
-    generate_teacher_subject_id,
+    generate_promotion_code,
+    generate_student_class_code,
+    generate_teacher_subject_code,
 )
 
 # ============================================================
@@ -35,16 +35,16 @@ class TeacherSubject(Base, TimestampMixin, ActiveMixin):
 
     @hybrid_property
     def id(self):
-        return self.business_id
+        return self.teacher_subject_code
 
     @id.expression
     def id(cls):
-        return cls.business_id
+        return cls.teacher_subject_code
 
-    business_id = Column(
+    teacher_subject_code = Column(
         String(30),
         primary_key=True,
-        default=generate_teacher_subject_id,
+        default=generate_teacher_subject_code,
     )
 
     academic_sessions_id = Column(
@@ -56,7 +56,7 @@ class TeacherSubject(Base, TimestampMixin, ActiveMixin):
 
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id", ondelete="CASCADE"),
+        ForeignKey("class_subjects.class_subject_code", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
@@ -130,16 +130,16 @@ class StudentClass(Base, TimestampMixin, ActiveMixin):
 
     @hybrid_property
     def id(self):
-        return self.business_id
+        return self.student_class_code
 
     @id.expression
     def id(cls):
-        return cls.business_id
+        return cls.student_class_code
 
-    business_id = Column(
+    student_class_code = Column(
         String(30),
         primary_key=True,
-        default=generate_student_class_id,
+        default=generate_student_class_code,
     )
 
     # -------------------------
@@ -250,10 +250,10 @@ class StudentClass(Base, TimestampMixin, ActiveMixin):
 class StudentPromotionHistory(Base, TimestampMixin):
     __tablename__ = "student_promotion_history"
 
-    business_id = Column(
+    promotion_code = Column(
         String(30),
         primary_key=True,
-        default=generate_promotion_history_id,
+        default=generate_promotion_code,
     )
 
     student_id = Column(
@@ -297,7 +297,7 @@ class StudentPromotionHistory(Base, TimestampMixin):
 
     remarks = Column(String(500))
 
-    promoted_by_user_id = Column(String(30), ForeignKey("users.business_id"))
+    promoted_by_user_id = Column(String(30), ForeignKey("users.user_code"))
 
     student = relationship("StudentProfile", back_populates="promotion_history")
 

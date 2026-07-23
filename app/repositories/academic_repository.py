@@ -180,7 +180,7 @@ class StudyMaterialRepository(BaseRepository[StudyMaterial]):
     def get_by_material_id(self, material_id: str) -> StudyMaterial | None:
         return (
             self.db.query(StudyMaterial)
-            .filter(StudyMaterial.business_id == material_id)
+            .filter(StudyMaterial.material_code == material_id)
             .first()
         )
 

@@ -51,7 +51,7 @@ class ChatRoomCreate(ChatRoomBase):
 
 
 class ChatRoomResponse(ChatRoomBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    chat_room_code: str
     academic_sessions_id: str
     student_class_id: str
     teacher_subject_id: str
@@ -86,7 +86,7 @@ class ChatMessageCreate(ChatMessageBase):
 
 
 class ChatMessageResponse(ChatMessageBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    chat_message_code: str
     chat_room_id: str
     sender_id: str
 

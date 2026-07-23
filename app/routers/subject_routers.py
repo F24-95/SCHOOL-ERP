@@ -533,7 +533,7 @@ async def remove_class_subject(
 ):
     """Remove a class-subject mapping."""
     mapping = (
-        db.query(ClassSubject).filter(ClassSubject.business_id == mapping_id).first()
+        db.query(ClassSubject).filter(ClassSubject.class_subject_code == mapping_id).first()
     )
 
     if not mapping:

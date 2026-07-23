@@ -32,7 +32,7 @@ from app.helpers.code_generators import generate_fee_code
 class Fee(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "fees"
 
-    business_id = Column(String(30), primary_key=True, default=generate_fee_code)
+    fee_code = Column(String(30), primary_key=True, default=generate_fee_code)
 
     # =====================================================
     # Academic
@@ -47,7 +47,7 @@ class Fee(Base, TimestampMixin, ActiveMixin):
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
         index=True,
     )
@@ -97,11 +97,11 @@ class Fee(Base, TimestampMixin, ActiveMixin):
     # Audit
     # =====================================================
 
-    created_by = Column(String(30), ForeignKey("users.business_id"), nullable=False)
+    created_by = Column(String(30), ForeignKey("users.user_code"), nullable=False)
 
-    updated_by = Column(String(30), ForeignKey("users.business_id"))
+    updated_by = Column(String(30), ForeignKey("users.user_code"))
 
-    deleted_by = Column(String(30), ForeignKey("users.business_id"))
+    deleted_by = Column(String(30), ForeignKey("users.user_code"))
 
     # =====================================================
     # Relationships

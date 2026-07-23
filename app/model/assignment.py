@@ -21,8 +21,8 @@ from app.core.constants import MAX_CODE_LENGTH
 from app.core.enums import AssignmentStatus
 from app.core.mixins import ActiveMixin, TimestampMixin
 from app.helpers.code_generators import (
-    generate_assignment_id,
-    generate_assignment_result_id,
+    generate_assignment_code,
+    generate_assignment_result_code,
 )
 
 # ============================================================
@@ -40,13 +40,13 @@ class Assignment(Base, TimestampMixin, ActiveMixin):
 
     @hybrid_property
     def id(self):
-        return self.business_id
+        return self.assignment_code
 
     @id.expression
     def id(cls):
-        return cls.business_id
+        return cls.assignment_code
 
-    business_id = Column(String(30), primary_key=True, default=generate_assignment_id)
+    assignment_code = Column(String(30), primary_key=True, default=generate_assignment_code)
 
     # =====================================================
     # Academic
@@ -68,14 +68,14 @@ class Assignment(Base, TimestampMixin, ActiveMixin):
 
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id"),
+        ForeignKey("class_subjects.class_subject_code"),
         nullable=False,
         index=True,
     )
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
         index=True,
     )
@@ -110,7 +110,7 @@ class Assignment(Base, TimestampMixin, ActiveMixin):
 
     file_size = Column(Integer, nullable=True)
 
-    uploaded_by = Column(String(30), ForeignKey("users.business_id"), nullable=True)
+    uploaded_by = Column(String(30), ForeignKey("users.user_code"), nullable=True)
 
     # =====================================================
     # Status
@@ -139,11 +139,11 @@ class Assignment(Base, TimestampMixin, ActiveMixin):
     # Audit
     # =====================================================
 
-    created_by = Column(String(30), ForeignKey("users.business_id"), nullable=False)
+    created_by = Column(String(30), ForeignKey("users.user_code"), nullable=False)
 
-    updated_by = Column(String(30), ForeignKey("users.business_id"), nullable=True)
+    updated_by = Column(String(30), ForeignKey("users.user_code"), nullable=True)
 
-    deleted_by = Column(String(30), ForeignKey("users.business_id"), nullable=True)
+    deleted_by = Column(String(30), ForeignKey("users.user_code"), nullable=True)
 
     academic_sessions = relationship("AcademicSession")
 
@@ -181,10 +181,10 @@ class Assignment(Base, TimestampMixin, ActiveMixin):
 class AssignmentResult(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "assignment_results"
 
-    business_id = Column(
+    assignment_result_code = Column(
         String(30),
         primary_key=True,
-        default=generate_assignment_result_id,
+        default=generate_assignment_result_code,
     )
 
     # ===========================================
@@ -193,14 +193,14 @@ class AssignmentResult(Base, TimestampMixin, ActiveMixin):
 
     assignment_id = Column(
         String(30),
-        ForeignKey("assignments.business_id"),
+        ForeignKey("assignments.assignment_code"),
         nullable=False,
         index=True,
     )
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
         index=True,
     )
@@ -229,7 +229,7 @@ class AssignmentResult(Base, TimestampMixin, ActiveMixin):
     # Audit
     # ===========================================
 
-    checked_by = Column(String(30), ForeignKey("users.business_id"))
+    checked_by = Column(String(30), ForeignKey("users.user_code"))
 
     assignment = relationship("Assignment", back_populates="results")
 

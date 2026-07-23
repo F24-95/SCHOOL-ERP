@@ -15,7 +15,7 @@ def from_academic_session(db_session, admin_user):
         start_date=date(2025, 4, 1),
         end_date=date(2026, 3, 31),
         is_current=False,
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(obj)
     db_session.flush()
@@ -32,7 +32,7 @@ def from_classroom(db_session, from_academic_session, admin_user):
         section="A",
         display_name="Class 9-A",
         academic_sessions_id=from_academic_session.session_code,
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(cls)
     db_session.flush()
@@ -145,10 +145,10 @@ class TestPromotionCRUD:
             "new_roll_number": 5,
         }
         create_resp = client.post("/promotions", json=data, headers=auth_headers_admin)
-        prom_id = create_resp.json()["business_id"]
+        prom_id = create_resp.json()["promotion_history_code"]
         resp = client.get(f"/promotions/{prom_id}", headers=auth_headers_admin)
         assert resp.status_code == 200, resp.text
-        assert resp.json()["business_id"] == prom_id
+        assert resp.json()["promotion_history_code"] == prom_id
 
     def test_get_promotion_not_found(
         self,
@@ -183,7 +183,7 @@ class TestPromotionCRUD:
             "new_roll_number": 5,
         }
         create_resp = client.post("/promotions", json=data, headers=auth_headers_admin)
-        prom_id = create_resp.json()["business_id"]
+        prom_id = create_resp.json()["promotion_history_code"]
         resp = client.put(
             f"/promotions/{prom_id}",
             json={"remarks": "Updated remarks", "new_roll_number": 6},
@@ -229,7 +229,7 @@ class TestPromotionCRUD:
             "new_roll_number": 5,
         }
         create_resp = client.post("/promotions", json=data, headers=auth_headers_admin)
-        prom_id = create_resp.json()["business_id"]
+        prom_id = create_resp.json()["promotion_history_code"]
         resp = client.delete(f"/promotions/{prom_id}", headers=auth_headers_admin)
         assert resp.status_code == 200, resp.text
         assert resp.json()["success"] is True

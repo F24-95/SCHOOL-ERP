@@ -126,7 +126,7 @@ class ClassTimeTableResponse(
     ActiveSchema,
     AuditSchema,
 ):
-    business_id: str
+    timetable_code: str
     academic_sessions_id: str
     classroom_id: str
     class_subject_id: str

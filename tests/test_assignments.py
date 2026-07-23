@@ -15,8 +15,8 @@ class TestAssignmentCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Math Homework 1",
                 "description": "Solve chapter 1 problems",
                 "due_date": "2026-08-01",
@@ -57,8 +57,8 @@ class TestAssignmentCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Assignment Get",
                 "description": "Test description",
                 "due_date": "2026-08-15",
@@ -100,8 +100,8 @@ class TestAssignmentCRUD:
             json={
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Assignment Delete",
                 "description": "To be deleted",
                 "due_date": "2026-09-01",

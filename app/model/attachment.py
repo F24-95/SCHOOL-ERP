@@ -24,7 +24,7 @@ class Attachment(
 ):
     __tablename__ = "attachments"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    attachment_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     entity_type = Column(String(30), nullable=False, index=True)
     entity_id = Column(String(30), nullable=False, index=True)

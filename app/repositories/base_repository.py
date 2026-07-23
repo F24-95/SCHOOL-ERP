@@ -6,7 +6,7 @@ import logging
 from datetime import UTC, datetime
 from typing import Any, Generic, TypeVar
 
-from sqlalchemy import asc, desc, func
+from sqlalchemy import asc, desc, func, inspect
 from sqlalchemy.orm import Session
 
 from app.api.database import Base
@@ -22,6 +22,10 @@ class BaseRepository(Generic[ModelType]):
     def __init__(self, model: type[ModelType], db: Session) -> None:
         self.model = model
         self.db = db
+
+    @property
+    def _pk_field(self) -> str:
+        return inspect(self.model).primary_key[0].name
 
     def get_all(
         self,
@@ -47,13 +51,13 @@ class BaseRepository(Generic[ModelType]):
             else:
                 query = query.order_by(asc(order_field))
         else:
-            query = query.order_by(desc(self.model.business_id))
+            query = query.order_by(desc(getattr(self.model, self._pk_field)))
 
         return query.offset(skip).limit(limit).all()
 
     def get_by_id(self, id: str) -> ModelType | None:
         """Get record by business ID."""
-        return self.db.query(self.model).filter(self.model.business_id == id).first()
+        return self.db.query(self.model).filter(getattr(self.model, self._pk_field) == id).first()
 
     def get_by_field(self, field: str, value: Any) -> ModelType | None:
         """Get record by field value."""
@@ -126,7 +130,7 @@ class BaseRepository(Generic[ModelType]):
 
     def delete_bulk(self, ids: list[str], soft_delete: bool = True) -> int:
         """Delete multiple records."""
-        query = self.db.query(self.model).filter(self.model.business_id.in_(ids))
+        query = self.db.query(self.model).filter(getattr(self.model, self._pk_field).in_(ids))
         if soft_delete and hasattr(self.model, "is_active"):
             return query.update(
                 {"is_active": False, "deleted_at": datetime.now(UTC)},
@@ -217,7 +221,7 @@ class BaseRepository(Generic[ModelType]):
         """Get statistics grouped by field."""
         query = self.db.query(
             getattr(self.model, group_by),
-            func.count(self.model.business_id).label("count"),
+            func.count(getattr(self.model, self._pk_field)).label("count"),
         )
 
         for key, value in filters.items():

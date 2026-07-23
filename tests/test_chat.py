@@ -13,8 +13,8 @@ class TestChatRoom:
             "/chat/rooms",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "student_class_id": student_class.student_class_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Chat Room",
             },
             headers=auth_headers_teacher,
@@ -49,8 +49,8 @@ class TestChatRoom:
             "/chat/rooms",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "student_class_id": student_class.student_class_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Chat Room Get",
             },
             headers=auth_headers_teacher,
@@ -61,7 +61,7 @@ class TestChatRoom:
 
         created = create_resp.json()
         room_id = (
-            created.get("business_id")
+            created.get("chat_room_code")
             or created.get("id")
             or created.get("chat_room_id")
         )
@@ -71,7 +71,7 @@ class TestChatRoom:
             headers=auth_headers_teacher,
         )
         if resp.status_code == 200:
-            assert resp.json()["business_id"] == room_id
+            assert resp.json()["chat_room_code"] == room_id
         elif resp.status_code == 404:
             pass
         else:
@@ -93,8 +93,8 @@ class TestChatMessage:
             "/chat/rooms",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "student_class_id": student_class.student_class_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Chat Room Msg",
             },
             headers=auth_headers_teacher,
@@ -104,7 +104,7 @@ class TestChatMessage:
             return
 
         room_id = (
-            create_resp.json().get("business_id")
+            create_resp.json().get("chat_room_code")
             or create_resp.json().get("id")
             or create_resp.json().get("chat_room_id")
         )
@@ -135,8 +135,8 @@ class TestChatMessage:
             "/chat/rooms",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "student_class_id": student_class.student_class_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "title": "Test Chat Room List Msg",
             },
             headers=auth_headers_teacher,
@@ -146,7 +146,7 @@ class TestChatMessage:
             return
 
         room_id = (
-            create_resp.json().get("business_id")
+            create_resp.json().get("chat_room_code")
             or create_resp.json().get("id")
             or create_resp.json().get("chat_room_id")
         )

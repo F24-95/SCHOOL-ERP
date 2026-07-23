@@ -28,7 +28,7 @@ from app.core.constants import (
 )
 from app.core.enums import UserRole
 from app.core.mixins import ActiveMixin, AuditMixin, SoftDeleteMixin, TimestampMixin
-from app.helpers.code_generators import generate_admin_code, generate_user_business_id
+from app.helpers.code_generators import generate_admin_code, generate_user_code
 
 # ============================================================
 # AUTO TABLENAME
@@ -43,23 +43,23 @@ from app.helpers.code_generators import generate_admin_code, generate_user_busin
 class User(Base, TimestampMixin, ActiveMixin, AuditMixin, SoftDeleteMixin):
     __tablename__ = "users"
 
-    business_id = Column(
+    user_code = Column(
         String(MAX_CODE_LENGTH),
         primary_key=True,
-        default=generate_user_business_id,
+        default=generate_user_code,
     )
 
     @hybrid_property
     def id(self):
-        return self.business_id
+        return self.user_code
 
     @id.inplace.setter
     def _id_setter(self, value):
-        self.business_id = value
+        self.user_code = value
 
     @id.expression
     def _id_expression(cls):
-        return cls.business_id
+        return cls.user_code
 
     # ------------------------------------------------
     # BUSINESS IDS
@@ -197,7 +197,7 @@ class StudentProfile(Base, TimestampMixin, ActiveMixin, AuditMixin):
 
     user_id = Column(
         String(MAX_CODE_LENGTH),
-        ForeignKey("users.business_id"),
+        ForeignKey("users.user_code"),
         nullable=False,
         unique=True,
         index=True,
@@ -317,7 +317,7 @@ class TeacherProfile(Base, TimestampMixin, ActiveMixin, AuditMixin):
 
     user_id = Column(
         String(MAX_CODE_LENGTH),
-        ForeignKey("users.business_id"),
+        ForeignKey("users.user_code"),
         nullable=False,
         unique=True,
         index=True,
@@ -430,7 +430,7 @@ class AdminProfile(Base, TimestampMixin, ActiveMixin, AuditMixin):
 
     user_id = Column(
         String(MAX_CODE_LENGTH),
-        ForeignKey("users.business_id", ondelete="CASCADE"),
+        ForeignKey("users.user_code", ondelete="CASCADE"),
         unique=True,
         nullable=False,
         index=True,

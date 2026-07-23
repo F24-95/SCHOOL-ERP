@@ -11,8 +11,8 @@ from sqlalchemy.orm import relationship
 
 from app.api.database import Base
 from app.helpers.code_generators import (
-    generate_topic_id,
-    generate_topic_progress_id,
+    generate_topic_code,
+    generate_topic_progress_code,
     generate_uuid,
 )
 
@@ -49,9 +49,9 @@ from app.helpers.code_generators import (
 class Topic(Base):
     __tablename__ = "ka_topic"
 
-    business_id = Column(String(30), primary_key=True, default=generate_topic_id)
+    topic_code = Column(String(30), primary_key=True, default=generate_topic_code)
 
-    course_id = Column(String(30), ForeignKey("ka_course.business_id"), index=True)
+    course_id = Column(String(30), ForeignKey("ka_course.ka_course_code"), index=True)
 
     topic_id = Column(String(200), unique=True, index=True)
 
@@ -93,17 +93,17 @@ class Topic(Base):
 class TopicProgress(Base):
     __tablename__ = "ka_topic_progress"
 
-    business_id = Column(
+    topic_progress_code = Column(
         String(30),
         primary_key=True,
-        default=generate_topic_progress_id,
+        default=generate_topic_progress_code,
     )
 
-    student_id = Column(String(30), ForeignKey("ka_student.business_id"), index=True)
+    student_id = Column(String(30), ForeignKey("ka_student.ka_student_code"), index=True)
 
-    course_id = Column(String(30), ForeignKey("ka_course.business_id"), index=True)
+    course_id = Column(String(30), ForeignKey("ka_course.ka_course_code"), index=True)
 
-    topic_id = Column(String(30), ForeignKey("ka_topic.business_id"), index=True)
+    topic_id = Column(String(30), ForeignKey("ka_topic.topic_code"), index=True)
 
     point_available = Column(Integer)
 
@@ -148,25 +148,25 @@ class TopicProgress(Base):
 class StudentTopicProgressReport(Base):
     __tablename__ = "student_topic_progress_report"
 
-    business_id = Column(String(30), primary_key=True, default=generate_uuid)
+    topic_progress_report_code = Column(String(30), primary_key=True, default=generate_uuid)
 
     report_id = Column(
         String(30),
-        ForeignKey("student_report.business_id"),
+        ForeignKey("student_report.report_code"),
         nullable=False,
         index=True,
     )
 
     topic_id = Column(
         String(30),
-        ForeignKey("ka_topic.business_id"),
+        ForeignKey("ka_topic.topic_code"),
         nullable=False,
         index=True,
     )
 
     topic_progress_id = Column(
         String(30),
-        ForeignKey("ka_topic_progress.business_id"),
+        ForeignKey("ka_topic_progress.topic_progress_code"),
         nullable=False,
         index=True,
     )

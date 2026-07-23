@@ -64,11 +64,11 @@ def _create_timetable_entry(
     sl = db_session.query(TimeSlot).filter(TimeSlot.slot_code == slot_code).first()
 
     entry = ClassTimeTable(
-        business_id=_short_id(),
+        timetable_code=_short_id(),
         academic_sessions_id=academic_session.session_code,
         classroom_id=classroom.class_code,
-        class_subject_id=class_subject.business_id,
-        teacher_subject_id=teacher_subject.business_id,
+        class_subject_id=class_subject.class_subject_code,
+        teacher_subject_id=teacher_subject.teacher_subject_code,
         week_day_id=wd.day_code,
         time_slot_id=sl.slot_code,
         room_number=room,
@@ -153,8 +153,8 @@ class TestTimeTableCRUD:
                 "timetable_id": _short_id(),
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "week_day_id": "MON",
                 "time_slot_id": "SLOT1",
                 "room_number": "101",
@@ -189,8 +189,8 @@ class TestTimeTableCRUD:
                 "timetable_id": _short_id(),
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "week_day_id": "MON",
                 "time_slot_id": "SLOT1",
                 "room_number": "101",
@@ -217,8 +217,8 @@ class TestTimeTableCRUD:
                 "timetable_id": _short_id(),
                 "academic_sessions_id": academic_session.session_code,
                 "classroom_id": classroom.class_code,
-                "class_subject_id": class_subject.business_id,
-                "teacher_subject_id": teacher_subject.business_id,
+                "class_subject_id": class_subject.class_subject_code,
+                "teacher_subject_id": teacher_subject.teacher_subject_code,
                 "week_day_id": "MON",
                 "time_slot_id": "SLOT1",
                 "room_number": "101",
@@ -413,14 +413,14 @@ class TestTimeTableCRUD:
 
         resp = _put_safe(
             client,
-            f"/timetable/{entry.business_id}",
+            f"/timetable/{entry.timetable_code}",
             json={"room_number": "202"},
             headers=auth_headers_admin,
         )
         if resp.status_code == 500:
             pytest.xfail("service uses ClassTimeTable.id which does not exist")
         if resp.status_code == 422:
-            pytest.xfail("route expects int path param but business_id is a string")
+            pytest.xfail("route expects int path param but timetable_code is a string")
         assert resp.status_code == 200, resp.text
         assert resp.json()["room_number"] == "202"
 
@@ -464,13 +464,13 @@ class TestTimeTableCRUD:
 
         resp = _delete_safe(
             client,
-            f"/timetable/{entry.business_id}",
+            f"/timetable/{entry.timetable_code}",
             headers=auth_headers_admin,
         )
         if resp.status_code == 500:
             pytest.xfail("service uses ClassTimeTable.id which does not exist")
         if resp.status_code == 422:
-            pytest.xfail("route expects int path param but business_id is a string")
+            pytest.xfail("route expects int path param but timetable_code is a string")
         assert resp.status_code == 200, resp.text
         assert resp.json()["success"] is True
 
@@ -511,13 +511,13 @@ class TestTimeTableCRUD:
 
         resp = _delete_safe(
             client,
-            f"/timetable/{entry.business_id}",
+            f"/timetable/{entry.timetable_code}",
             headers=auth_headers_student,
         )
         if resp.status_code == 500:
             pytest.xfail("service uses ClassTimeTable.id which does not exist")
         if resp.status_code == 422:
-            pytest.xfail("route expects int path param but business_id is a string")
+            pytest.xfail("route expects int path param but timetable_code is a string")
         assert resp.status_code == 403, resp.text
 
 

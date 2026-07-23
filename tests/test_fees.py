@@ -12,7 +12,7 @@ class TestFeeCRUD:
             "/fees/",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
+                "student_class_id": student_class.student_class_code,
                 "fee_month": 6,
                 "fee_year": 2026,
                 "total_amount": 5000.00,
@@ -51,7 +51,7 @@ class TestFeeCRUD:
             "/fees/",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
+                "student_class_id": student_class.student_class_code,
                 "fee_month": 6,
                 "fee_year": 2026,
                 "total_amount": 5000.00,
@@ -65,14 +65,14 @@ class TestFeeCRUD:
             return
 
         created = create_resp.json()
-        fee_id = created["business_id"]
+        fee_id = created["fee_code"]
 
         resp = client.get(
             f"/fees/{fee_id}",
             headers=auth_headers_admin,
         )
         if resp.status_code == 200:
-            assert resp.json()["business_id"] == fee_id
+            assert resp.json()["fee_code"] == fee_id
         elif resp.status_code == 404:
             pass
         else:
@@ -91,7 +91,7 @@ class TestFeeCRUD:
             "/fees/",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
+                "student_class_id": student_class.student_class_code,
                 "fee_month": 6,
                 "fee_year": 2026,
                 "total_amount": 5000.00,
@@ -104,7 +104,7 @@ class TestFeeCRUD:
             return
 
         created = create_resp.json()
-        fee_id = created["business_id"]
+        fee_id = created["fee_code"]
 
         resp = client.put(
             f"/fees/{fee_id}",
@@ -132,7 +132,7 @@ class TestFeeCRUD:
             "/fees/",
             json={
                 "academic_sessions_id": academic_session.session_code,
-                "student_class_id": student_class.business_id,
+                "student_class_id": student_class.student_class_code,
                 "fee_month": 6,
                 "fee_year": 2026,
                 "total_amount": 5000.00,
@@ -145,7 +145,7 @@ class TestFeeCRUD:
             return
 
         created = create_resp.json()
-        fee_id = created["business_id"]
+        fee_id = created["fee_code"]
 
         resp = client.delete(
             f"/fees/{fee_id}",

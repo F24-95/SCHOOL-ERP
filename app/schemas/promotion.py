@@ -33,5 +33,5 @@ class StudentPromotionHistoryUpdate(BaseSchema):
 
 
 class StudentPromotionHistoryResponse(StudentPromotionHistoryBase):
-    business_id: str
+    promotion_code: str
     promoted_by_user_id: str | None = None

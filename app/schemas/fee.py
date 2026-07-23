@@ -59,7 +59,7 @@ class FeeCreate(FeeBase):
 
 
 class FeeResponse(FeeBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    fee_code: str
     academic_sessions_id: str
     student_class_id: str
     created_by: str

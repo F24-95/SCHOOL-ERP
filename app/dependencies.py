@@ -14,7 +14,7 @@ ROLE_STUDENT = "student"
 # JWT TOKEN
 # =====================================================
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 
 # =====================================================

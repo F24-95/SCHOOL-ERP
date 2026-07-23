@@ -104,7 +104,7 @@ class TestTeacherSubjects:
         assert resp.status_code == 200, resp.text
         data = resp.json()
         if len(data) > 0:
-            assert "business_id" in data[0]
+            assert "teacher_subject_code" in data[0]
 
     def test_get_teacher_subjects_filtered(
         self,

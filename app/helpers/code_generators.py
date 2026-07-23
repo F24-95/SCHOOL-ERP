@@ -113,90 +113,143 @@ def generate_registration_number(year: int, sequence: int) -> str:
 
 
 # ------------------------------------------------------------
-# Business ID generators for models that currently lack a
-# dedicated business-identifier function.
+# Unified code generators (table-name + _code naming)
 # ------------------------------------------------------------
 
 
-def generate_user_business_id() -> str:
+def generate_user_code() -> str:
     return f"USR-{random_code(8)}"
 
 
-def generate_assignment_result_id() -> str:
+def generate_assignment_result_code() -> str:
     return f"ASR-{random_code(8)}"
 
 
-def generate_chat_message_id() -> str:
+def generate_chat_room_code() -> str:
+    return f"CHT-{random_code(8)}"
+
+
+def generate_chat_message_code() -> str:
     return f"MSG-{random_code(8)}"
 
 
-def generate_class_subject_id() -> str:
+def generate_class_subject_code() -> str:
     return f"CLS-{random_code(8)}"
 
 
-def generate_daily_class_student_id() -> str:
+def generate_daily_class_code() -> str:
+    return f"DCL-{random_code(8)}"
+
+
+def generate_daily_class_student_code() -> str:
     return f"DCS-{random_code(8)}"
 
 
-def generate_student_attendance_id() -> str:
+def generate_material_code() -> str:
+    return f"MAT-{random_code(8)}"
+
+
+def generate_attendance_code() -> str:
     return f"ATT-{random_code(8)}"
 
 
-def generate_exam_result_id() -> str:
+def generate_exam_result_code() -> str:
     return f"EXR-{random_code(8)}"
 
 
-def generate_teacher_subject_id() -> str:
+def generate_teacher_subject_code() -> str:
     return f"TCH-{random_code(8)}"
 
 
-def generate_student_class_id() -> str:
+def generate_student_class_code() -> str:
     return f"STC-{random_code(8)}"
 
 
-def generate_promotion_history_id() -> str:
+def generate_promotion_code() -> str:
     return f"PRM-{random_code(8)}"
 
 
-def generate_student_id_card_id() -> str:
+def generate_id_card_code() -> str:
     return f"IDC-{random_code(8)}"
 
 
-def generate_student_report_id() -> str:
+def generate_report_code() -> str:
     return f"RPT-{random_code(8)}"
 
 
-def generate_zoom_file_id() -> str:
+def generate_zoom_file_code() -> str:
     return f"ZFL-{random_code(8)}"
 
 
-def generate_zoom_transcript_id() -> str:
+def generate_zoom_transcript_code() -> str:
     return f"ZTR-{random_code(8)}"
 
 
-def generate_zoom_interaction_id() -> str:
+def generate_zoom_interaction_code() -> str:
     return f"ZIN-{random_code(8)}"
 
 
-def generate_zoom_duration_report_id() -> str:
+def generate_duration_report_code() -> str:
     return f"ZDR-{random_code(8)}"
 
 
-def generate_zoom_interaction_report_id() -> str:
+def generate_interaction_report_code() -> str:
     return f"ZIR-{random_code(8)}"
 
 
-def generate_ka_course_id() -> str:
+def generate_ka_course_code() -> str:
     return f"KAC-{random_code(8)}"
 
 
-def generate_ka_student_id() -> str:
+def generate_ka_student_code() -> str:
     return f"KAS-{random_code(8)}"
 
 
-def generate_topic_id() -> str:
+def generate_topic_code() -> str:
     return f"TOP-{random_code(8)}"
 
 
-def generate_topic_progress_id() -> str:
+def generate_topic_progress_code() -> str:
     return f"TPR-{random_code(8)}"
+
+
+def generate_timetable_code() -> str:
+    return f"TMT-{random_code(8)}"
+
+
+def generate_availability_code() -> str:
+    return f"AVL-{random_code(8)}"
+
+
+def generate_attachment_code() -> str:
+    return f"ATC-{random_code(8)}"
+
+
+def generate_topic_progress_report_code() -> str:
+    return f"TPR-{random_code(8)}"
+
+
+# ------------------------------------------------------------
+# Legacy aliases (backward compat — do NOT use in new code)
+# ------------------------------------------------------------
+generate_material_id = generate_material_code
+generate_user_business_id = generate_user_code
+generate_assignment_result_id = generate_assignment_result_code
+generate_chat_message_id = generate_chat_message_code
+generate_class_subject_id = generate_class_subject_code
+generate_student_attendance_id = generate_attendance_code
+generate_exam_result_id = generate_exam_result_code
+generate_teacher_subject_id = generate_teacher_subject_code
+generate_student_class_id = generate_student_class_code
+generate_promotion_history_id = generate_promotion_code
+generate_student_id_card_id = generate_id_card_code
+generate_student_report_id = generate_report_code
+generate_zoom_file_id = generate_zoom_file_code
+generate_zoom_transcript_id = generate_zoom_transcript_code
+generate_zoom_interaction_id = generate_zoom_interaction_code
+generate_zoom_duration_report_id = generate_duration_report_code
+generate_zoom_interaction_report_id = generate_interaction_report_code
+generate_ka_course_id = generate_ka_course_code
+generate_ka_student_id = generate_ka_student_code
+generate_topic_id = generate_topic_code
+generate_topic_progress_id = generate_topic_progress_code

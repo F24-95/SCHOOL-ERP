@@ -145,7 +145,7 @@ class ClassSubjectCreate(ClassSubjectBase):
 
 
 class ClassSubjectResponse(ClassSubjectBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    class_subject_code: str
     academic_sessions_id: str
     classroom_id: str
     subject_id: str

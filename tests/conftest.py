@@ -42,7 +42,7 @@ from app.helpers.code_generators import (
     generate_student_id,
     generate_teacher_id,
     generate_teacher_subject_id,
-    generate_user_business_id,
+    generate_user_code,
 )
 from app.main import app
 from app.model import (
@@ -120,10 +120,10 @@ def client():
 
 @pytest.fixture
 def admin_user(db_session):
-    business_id = generate_user_business_id()
+    uid = generate_user_code()
     admin_id_val = generate_admin_code()
     user = User(
-        business_id=business_id,
+        user_code=uid,
         email="admin@test.edu",
         phone="9876543210",
         role=UserRole.ADMIN,
@@ -137,7 +137,7 @@ def admin_user(db_session):
 
     profile = AdminProfile(
         admin_id=admin_id_val,
-        user_id=business_id,
+        user_id=uid,
         admin_name="Test Admin",
         super_admin=True,
         can_create_admin=True,
@@ -149,10 +149,10 @@ def admin_user(db_session):
 
 @pytest.fixture
 def teacher_user(db_session):
-    business_id = generate_user_business_id()
+    uid = generate_user_code()
     tid = generate_teacher_id(1)
     user = User(
-        business_id=business_id,
+        user_code=uid,
         email="teacher@test.edu",
         phone="9876543211",
         role=UserRole.TEACHER,
@@ -166,7 +166,7 @@ def teacher_user(db_session):
 
     profile = TeacherProfile(
         teacher_id=tid,
-        user_id=business_id,
+        user_id=uid,
         teacher_name="Test Teacher",
         designation="Senior Teacher",
         department="Science",
@@ -179,10 +179,10 @@ def teacher_user(db_session):
 
 @pytest.fixture
 def student_user(db_session):
-    business_id = generate_user_business_id()
+    uid = generate_user_code()
     sid = generate_student_id(1)
     user = User(
-        business_id=business_id,
+        user_code=uid,
         email="student@test.edu",
         phone="9876543212",
         role=UserRole.STUDENT,
@@ -196,7 +196,7 @@ def student_user(db_session):
 
     profile = StudentProfile(
         student_id=sid,
-        user_id=business_id,
+        user_id=uid,
         student_name="Test Student",
         school_name="Test School",
     )
@@ -218,7 +218,7 @@ def academic_session(db_session, admin_user):
         start_date=date(2026, 4, 1),
         end_date=date(2027, 3, 31),
         is_current=True,
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(obj)
     db_session.flush()
@@ -233,7 +233,7 @@ def classroom(db_session, academic_session, admin_user):
         section="A",
         display_name="Class 10-A",
         academic_sessions_id=academic_session.session_code,
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(cls)
     db_session.flush()
@@ -246,7 +246,7 @@ def subject(db_session, admin_user):
         subject_code="MATH10",
         subject_name="Mathematics",
         subject_type="Core",
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(subj)
     db_session.flush()
@@ -256,11 +256,11 @@ def subject(db_session, admin_user):
 @pytest.fixture
 def class_subject(db_session, academic_session, classroom, subject, admin_user):
     cs = ClassSubject(
-        business_id=generate_class_subject_id(),
+        class_subject_code=generate_class_subject_id(),
         academic_sessions_id=academic_session.session_code,
         classroom_id=classroom.class_code,
         subject_id=subject.subject_code,
-        created_by=admin_user.business_id,
+        created_by=admin_user.user_code,
     )
     db_session.add(cs)
     db_session.flush()
@@ -272,9 +272,9 @@ def teacher_subject(
     db_session, academic_session, classroom, subject, class_subject, teacher_user
 ):
     ts = TeacherSubject(
-        business_id=generate_teacher_subject_id(),
+        teacher_subject_code=generate_teacher_subject_id(),
         academic_sessions_id=academic_session.session_code,
-        class_subject_id=class_subject.business_id,
+        class_subject_id=class_subject.class_subject_code,
         classroom_id=classroom.class_code,
         subject_id=subject.subject_code,
         teacher_id=teacher_user.teacher_id,
@@ -287,7 +287,7 @@ def teacher_subject(
 @pytest.fixture
 def student_class(db_session, academic_session, classroom, student_user):
     sc = StudentClass(
-        business_id=generate_student_class_id(),
+        student_class_code=generate_student_class_id(),
         academic_sessions_id=academic_session.session_code,
         student_id=student_user.student_id,
         classroom_id=classroom.class_code,
@@ -328,17 +328,17 @@ def override_student(student_user):
 
 @pytest.fixture
 def admin_token(admin_user):
-    return create_access_token({"sub": admin_user.business_id, "role": "admin"})
+    return create_access_token({"sub": admin_user.user_code, "role": "admin"})
 
 
 @pytest.fixture
 def teacher_token(teacher_user):
-    return create_access_token({"sub": teacher_user.business_id, "role": "teacher"})
+    return create_access_token({"sub": teacher_user.user_code, "role": "teacher"})
 
 
 @pytest.fixture
 def student_token(student_user):
-    return create_access_token({"sub": student_user.business_id, "role": "student"})
+    return create_access_token({"sub": student_user.user_code, "role": "student"})
 
 
 @pytest.fixture

@@ -16,7 +16,7 @@ class TestKaCourseCRUD:
         assert resp.status_code == 201, resp.text
         data = resp.json()
         assert data["course_name"] == COURSE_DATA["course_name"]
-        assert "business_id" in data
+        assert "ka_course_code" in data
 
     def test_create_course_duplicate(
         self,
@@ -69,7 +69,7 @@ class TestKaCourseCRUD:
             json=COURSE_DATA,
             headers=auth_headers_admin,
         )
-        course_id = create_resp.json()["business_id"]
+        course_id = create_resp.json()["ka_course_code"]
         resp = client.get(f"/ka/courses/{course_id}", headers=auth_headers_admin)
         assert resp.status_code == 200
         assert resp.json()["course_name"] == COURSE_DATA["course_name"]
@@ -98,7 +98,7 @@ class TestKaCourseCRUD:
             json=COURSE_DATA,
             headers=auth_headers_admin,
         )
-        course_id = create_resp.json()["business_id"]
+        course_id = create_resp.json()["ka_course_code"]
         resp = client.put(
             f"/ka/courses/{course_id}",
             json={"course_id": "KA-ALG-01", "course_name": "Algebra II"},
@@ -120,7 +120,7 @@ class TestKaCourseCRUD:
             json=COURSE_DATA,
             headers=auth_headers_admin,
         )
-        course_id = create_resp.json()["business_id"]
+        course_id = create_resp.json()["ka_course_code"]
         resp = client.delete(f"/ka/courses/{course_id}", headers=auth_headers_admin)
         assert resp.status_code == 200
         assert resp.json()["success"] is True
@@ -184,7 +184,7 @@ class TestKaStudentCRUD:
             json=STUDENT_DATA,
             headers=auth_headers_admin,
         )
-        stu_id = create_resp.json()["business_id"]
+        stu_id = create_resp.json()["ka_student_code"]
         resp = client.get(f"/ka/students/{stu_id}", headers=auth_headers_admin)
         assert resp.status_code == 200
 
@@ -201,7 +201,7 @@ class TestKaStudentCRUD:
             json=STUDENT_DATA,
             headers=auth_headers_admin,
         )
-        stu_id = create_resp.json()["business_id"]
+        stu_id = create_resp.json()["ka_student_code"]
         resp = client.delete(f"/ka/students/{stu_id}", headers=auth_headers_admin)
         assert resp.status_code == 200
         assert resp.json()["success"] is True
@@ -222,7 +222,7 @@ class TestKaReportCRUD:
             headers=auth_headers_admin,
         )
         assert resp.status_code == 201, resp.text
-        assert "business_id" in resp.json()
+        assert "student_report_code" in resp.json()
 
     def test_list_reports(
         self,
@@ -265,7 +265,7 @@ class TestKaReportCRUD:
             json=REPORT_DATA,
             headers=auth_headers_admin,
         )
-        report_id = create_resp.json()["business_id"]
+        report_id = create_resp.json()["student_report_code"]
         resp = client.delete(f"/ka/reports/{report_id}", headers=auth_headers_admin)
         assert resp.status_code == 200
 

@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship
 from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.mixins import ActiveMixin, TimestampMixin
-from app.helpers.code_generators import generate_class_subject_id
+from app.helpers.code_generators import generate_class_subject_code
 
 # ============================================================
 # AUTO TABLENAME
@@ -78,13 +78,13 @@ class ClassRoom(Base, TimestampMixin, ActiveMixin):
 
     created_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 
     updated_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 
@@ -204,13 +204,13 @@ class Subject(Base, TimestampMixin, ActiveMixin):
 
     created_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 
     updated_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 
@@ -280,16 +280,16 @@ class ClassSubject(Base, TimestampMixin, ActiveMixin):
 
     @hybrid_property
     def id(self):
-        return self.business_id
+        return self.class_subject_code
 
     @id.expression
     def id(cls):
-        return cls.business_id
+        return cls.class_subject_code
 
-    business_id = Column(
+    class_subject_code = Column(
         String(30),
         primary_key=True,
-        default=generate_class_subject_id,
+        default=generate_class_subject_code,
     )
 
     # ==========================================
@@ -329,13 +329,13 @@ class ClassSubject(Base, TimestampMixin, ActiveMixin):
 
     created_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 
     updated_by = Column(
         String(30),
-        ForeignKey("users.business_id", ondelete="SET NULL"),
+        ForeignKey("users.user_code", ondelete="SET NULL"),
         nullable=True,
     )
 

@@ -70,7 +70,7 @@ class NoticeUpdate(NoticeUpdateForm):
 
 
 class NoticeResponse(NoticeBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    notice_code: str
     academic_sessions_id: str
     classroom_id: str | None = None
     created_by: str

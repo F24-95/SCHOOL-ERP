@@ -542,7 +542,7 @@ async def get_assignment(
         __import__("sqlalchemy").text(
             "SELECT "
             + ",".join(select_cols)
-            + " FROM assignments WHERE business_id = :id",
+            + " FROM assignments WHERE assignment_code = :id",
         ),
         {"id": assignment_id},
     ).first()

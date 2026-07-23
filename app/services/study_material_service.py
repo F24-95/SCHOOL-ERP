@@ -114,7 +114,7 @@ class StudyMaterialService:
         return (
             self.db.query(StudyMaterial)
             .filter(
-                StudyMaterial.business_id == material_db_id,
+                StudyMaterial.material_code == material_db_id,
                 StudyMaterial.is_active.is_(True),
             )
             .first()
@@ -181,7 +181,7 @@ class StudyMaterialService:
         self.db.commit()
         self.db.refresh(material)
 
-        stored_name = self._build_storage_name(material.business_id, file.filename)
+        stored_name = self._build_storage_name(material.material_code, file.filename)
         abs_path = str(Path(self.get_upload_root()) / stored_name)
 
         size = self._save_upload(file, abs_path)
@@ -238,7 +238,7 @@ class StudyMaterialService:
                     mt = MaterialType[material_type]
 
             material.material_type = mt
-            stored_name = self._build_storage_name(material.business_id, file.filename)
+            stored_name = self._build_storage_name(material.material_code, file.filename)
             abs_path = str(Path(self.get_upload_root()) / stored_name)
             size = self._save_upload(file, abs_path)
 

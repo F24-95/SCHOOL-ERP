@@ -53,7 +53,7 @@ class TeacherSubjectCreate(TeacherSubjectBase):
 
 
 class TeacherSubjectResponse(TeacherSubjectBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    teacher_subject_code: str
     academic_sessions_id: str
     class_subject_id: str
     classroom_id: str
@@ -95,7 +95,7 @@ class StudentClassCreate(StudentClassBase):
 
 
 class StudentClassResponse(StudentClassBase, TimestampSchema, ActiveSchema):
-    business_id: str
+    student_class_code: str
     academic_sessions_id: str
     student_id: str
     classroom_id: str
@@ -137,7 +137,7 @@ class StudentPromotionHistoryCreate(StudentPromotionHistoryBase):
 
 
 class StudentPromotionHistoryResponse(StudentPromotionHistoryBase, TimestampSchema):
-    business_id: str
+    promotion_code: str
     student_id: str
     from_session_id: str
     to_session_id: str

@@ -19,7 +19,7 @@ from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.enums import ExamStatus
 from app.core.mixins import ActiveMixin, TimestampMixin
-from app.helpers.code_generators import generate_exam_code, generate_exam_result_id
+from app.helpers.code_generators import generate_exam_code, generate_exam_result_code
 
 # ============================================================
 # AUTO TABLENAME
@@ -34,7 +34,7 @@ from app.helpers.code_generators import generate_exam_code, generate_exam_result
 class Exam(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "exams"
 
-    business_id = Column(String(30), primary_key=True, default=generate_exam_code)
+    exam_code = Column(String(30), primary_key=True, default=generate_exam_code)
 
     # =====================================================
     # Academic
@@ -56,14 +56,14 @@ class Exam(Base, TimestampMixin, ActiveMixin):
 
     class_subject_id = Column(
         String(30),
-        ForeignKey("class_subjects.business_id"),
+        ForeignKey("class_subjects.class_subject_code"),
         nullable=False,
         index=True,
     )
 
     teacher_subject_id = Column(
         String(30),
-        ForeignKey("teacher_subjects.business_id"),
+        ForeignKey("teacher_subjects.teacher_subject_code"),
         nullable=False,
         index=True,
     )
@@ -123,11 +123,11 @@ class Exam(Base, TimestampMixin, ActiveMixin):
     # Audit
     # =====================================================
 
-    created_by = Column(String(30), ForeignKey("users.business_id"), nullable=False)
+    created_by = Column(String(30), ForeignKey("users.user_code"), nullable=False)
 
-    updated_by = Column(String(30), ForeignKey("users.business_id"))
+    updated_by = Column(String(30), ForeignKey("users.user_code"))
 
-    deleted_by = Column(String(30), ForeignKey("users.business_id"))
+    deleted_by = Column(String(30), ForeignKey("users.user_code"))
 
     # =====================================================
     # Relationships
@@ -172,18 +172,18 @@ class Exam(Base, TimestampMixin, ActiveMixin):
 class ExamResult(Base, TimestampMixin, ActiveMixin):
     __tablename__ = "exam_results"
 
-    business_id = Column(String(30), primary_key=True, default=generate_exam_result_id)
+    exam_result_code = Column(String(30), primary_key=True, default=generate_exam_result_code)
 
     exam_id = Column(
         String(30),
-        ForeignKey("exams.business_id"),
+        ForeignKey("exams.exam_code"),
         nullable=False,
         index=True,
     )
 
     student_class_id = Column(
         String(30),
-        ForeignKey("student_classes.business_id"),
+        ForeignKey("student_classes.student_class_code"),
         nullable=False,
         index=True,
     )
@@ -200,7 +200,7 @@ class ExamResult(Base, TimestampMixin, ActiveMixin):
 
     is_absent = Column(Boolean, default=False)
 
-    checked_by = Column(String(30), ForeignKey("users.business_id"))
+    checked_by = Column(String(30), ForeignKey("users.user_code"))
 
     checked_at = Column(DateTime)
 

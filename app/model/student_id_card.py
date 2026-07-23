@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app.api.database import Base
 from app.core.constants import MAX_CODE_LENGTH
 from app.core.mixins import ActiveMixin, AuditMixin, TimestampMixin
-from app.helpers.code_generators import generate_student_id_card_id
+from app.helpers.code_generators import generate_id_card_code
 
 
 class StudentIDCard(Base, TimestampMixin, ActiveMixin, AuditMixin):
@@ -12,10 +12,10 @@ class StudentIDCard(Base, TimestampMixin, ActiveMixin, AuditMixin):
 
     __tablename__ = "student_id_cards"
 
-    business_id = Column(
+    id_card_code = Column(
         String(30),
         primary_key=True,
-        default=generate_student_id_card_id,
+        default=generate_id_card_code,
     )
 
     # Student
