@@ -36,14 +36,14 @@ from app.helpers.code_generators import (
     generate_admin_id, generate_teacher_id, generate_student_id
 )
 
-DEFAULT_PASSWORD = "password123"
+DEFAULT_PASSWORD = "ENTER YOUR PASSWORD"
 
 ACCOUNTS = [
     # ---- Admins (4) ----
     {"role": UserRole.ADMIN, "email": "ffaizan@student.iul.ac.in", "phone": "9517122461", "name": "Mohd Faizan", "super_admin": True},
-    {"role": UserRole.ADMIN, "email": "admin2@school.com", "phone": "9000000002", "name": "Admin Two"},
-    {"role": UserRole.ADMIN, "email": "admin3@school.com", "phone": "9000000003", "name": "Admin Three"},
-    {"role": UserRole.ADMIN, "email": "admin4@school.com", "phone": "9000000004", "name": "Admin Four"},
+    {"role": UserRole.ADMIN, "email": "admin2@school.test", "phone": "9000000002", "name": "Admin Two"},
+    {"role": UserRole.ADMIN, "email": "admin3@school.test", "phone": "9000000003", "name": "Admin Three"},
+    {"role": UserRole.ADMIN, "email": "admin4@school.test", "phone": "9000000004", "name": "Admin Four"},
 
     # ---- Teachers (3) ----
     {"role": UserRole.TEACHER, "email": "teacher1@school.com", "phone": "9000000011", "name": "Teacher One"},
