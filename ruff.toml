@@ -1,0 +1,17 @@
+target-version = "py311"
+line-length = 88
+
+[lint]
+select = ["F", "E", "W", "I", "N", "UP", "COM", "DTZ", "T", "PERF", "SIM", "RET", "PIE", "RUF", "B", "G", "TRY", "PTH", "PL", "S", "A", "ASYNC", "C4", "EM", "FBT", "INP"]
+ignore = [
+    "D", "ANN", "B008", "BLE001", "ERA001", "S105", "S608", "INP001", "E501",
+    "A002", "A003", "FBT001", "FBT002", "FBT003", "PLC0415", "COM812",
+    "PLR0912", "PLR0913", "PLR0915", "PLR2004", "C901",
+    "ARG001", "ARG002", "PERF203", "ASYNC240", "TRY300", "TRY301",
+    "N805", "S101",
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
